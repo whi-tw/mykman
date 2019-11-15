@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+config = YAML.load_file(ENV['HOME'] + '/.mykman.yml')
+
+def list(*, config)
+  config.each do |item, _pass_path|
+    puts item
+  end
+end
+
+def code(args, config)
+  STDERR.puts("mykman: oath request for #{args[0]}")
+  puts "#{args[0]} #{`pass otp #{config[args[0]]}`}"
+end
+
+send(ARGV[1], ARGV.drop(2), config=config)
